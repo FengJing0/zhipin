@@ -1,0 +1,37 @@
+var express = require('express')
+var router = express.Router()
+
+const {UserModel} = require('../db/models')
+const md5 = require('blueimp-md5')
+
+const filter = {password: 0, __v: 0}
+
+router.post('/register', (req, res) => {
+  const {username, password, type} = req.body
+  UserModel.findOne({username}, (err, user) => {
+    if (user) {
+      res.send({code: 1, msg: '此用户已存在'})
+    } else {
+      new UserModel({username, type, password: md5(password)}).save((err, user) => {
+        res.cookie('userid', user._id, {maxAge: 1000 * 60 * 60 * 24})
+        res.send({code: 0, data: {username, type, _id: user._id}})
+      })
+    }
+  })
+
+})
+
+router.post('/login', (req, res) => {
+  const {username, password} = req.body
+  UserModel.findOne({username, password: md5(password)}, filter, (err, user) => {
+    if (user) {
+      res.cookie('userid', user._id, {maxAge: 1000 * 60 * 60 * 24})
+      res.send({code: 0, data: user})
+    } else {
+      res.send({code: 1, msg: '用户名或者密码不正确！'})
+    }
+  })
+
+})
+
+module.exports = router
