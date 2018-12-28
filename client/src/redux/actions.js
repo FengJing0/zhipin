@@ -9,19 +9,19 @@ export const register = user => {
   const {username, password, password2, type} = user
 
   if (!username) {
-    return errorMsg('ÇëÊäÈëÓÃ»§Ãû')
+    return errorMsg('è¯·è¾“å…¥ç”¨æˆ·å')
   } else if (!password) {
-    return errorMsg('ÇëÊäÈëÃÜÂë')
+    return errorMsg('è¯·è¾“å…¥å¯†ç ')
   } else if (password && !password2) {
-    return errorMsg('ÇëÈ·¶¨ÃÜÂë')
+    return errorMsg('è¯·ç¡®è®¤å¯†ç ')
   } else if (password !== password2) {
-    return errorMsg('2´ÎÃÜÂëÒªÒ»ÖÂ')
+    return errorMsg('2æ¬¡å¯†ç ä¸ä¸€è‡´')
   }
 
   return async dispatch => {
     const response = await reqRegister({username, password, type})
     const result = response.data
-    if (result.code === 0) {//³É¹¦
+    if (result.code === 0) {//ï¿½É¹ï¿½
       dispatch(authSuccess(result.data))
     } else {
       dispatch(errorMsg(result.msg))
@@ -33,14 +33,14 @@ export const login = user => {
   const {username, password} = user
 
   if (!username) {
-    return errorMsg('ÇëÊäÈëÓÃ»§Ãû')
+    return errorMsg('è¯·è¾“å…¥ç”¨æˆ·å')
   } else if (!password) {
-    return errorMsg('ÇëÊäÈëÃÜÂë')
+    return errorMsg('è¯·è¾“å…¥å¯†ç ')
   }
   return async dispatch => {
     const response = await reqLogin(user)
     const result = response.data
-    if (result.code === 0) {//³É¹¦
+    if (result.code === 0) {//ï¿½É¹ï¿½
       dispatch(authSuccess(result.data))
     } else {
       dispatch(errorMsg(result.msg))

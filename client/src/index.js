@@ -4,6 +4,8 @@ import * as serviceWorker from './serviceWorker'
 import {HashRouter, Route, Switch} from "react-router-dom"
 import {Provider} from "react-redux"
 
+import './assets/css/index.less'
+
 import Register from "./containers/register/register"
 import Main from "./containers/main/main"
 import Login from "./containers/login/login"
