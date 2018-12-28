@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux"
+import {Redirect} from "react-router-dom"
 
 import {NavBar, InputItem, TextareaItem, Button} from "antd-mobile"
 
-
 import HeaderSelector from "../../components/header-selector/header-selector"
+
+import {updateUser} from "../../redux/actions"
 
 
 class LaobanInfo extends Component {
@@ -27,10 +29,17 @@ class LaobanInfo extends Component {
   }
 
   save = () => {
-    console.log(this.state)
+    this.props.updateUser(this.state)
   }
 
   render() {
+    const {header, type} = this.props.user
+    if (header) {
+      const path = type === 'dashen' ? '/dashen' : '/laoban'
+      return <Redirect to={path}/>
+    }
+
+
     return (
         <div>
           <NavBar>老板信息完善</NavBar>
@@ -48,6 +57,6 @@ class LaobanInfo extends Component {
 }
 
 export default connect(
-    state => ({}),
-    {}
+    state => ({user: state.user}),
+    {updateUser}
 )(LaobanInfo)
