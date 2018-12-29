@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux"
-import {Button, List, Modal, Result, WhiteSpace, WingBlank} from "antd-mobile"
+import {Button, List, Modal, Result, WhiteSpace} from "antd-mobile"
 import Cookies from "js-cookie"
 import {resetUser,resetUserList} from '../../redux/actions'
 
@@ -25,8 +25,6 @@ class Personal extends Component {
         }
       }
     ])
-    // Cookies.remove('userid')
-    // this.props.history.replace('/login')
   }
 
   render() {

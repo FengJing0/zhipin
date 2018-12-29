@@ -12,7 +12,7 @@ export default class UserList extends Component {
   render() {
     const {userList} = this.props
     return (
-        <WingBlank style={{marginBottom:50,marginTop:50}}>
+        <WingBlank style={{marginBottom:50,marginTop:40}}>
           {
             userList.map(user => (
                 <div key={user._id}>
