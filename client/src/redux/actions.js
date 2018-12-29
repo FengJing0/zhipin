@@ -1,5 +1,5 @@
-import {reqLogin, reqRegister, reqUpdateUser,reqUser} from "../api"
-import {AUTH_SUCCESS, ERROR_MSG, RECEIVE_USER, RESET_USER} from "./action-type"
+import {reqLogin, reqRegister, reqUpdateUser,reqUser,reqUserList} from "../api"
+import {AUTH_SUCCESS, ERROR_MSG, RECEIVE_USER, RESET_USER,RECEIVE_USER_LIST,RESET_USER_LIST} from "./action-type"
 
 const authSuccess = user => ({type: AUTH_SUCCESS, data: user})
 
@@ -7,7 +7,11 @@ const errorMsg = msg => ({type: ERROR_MSG, data: msg})
 
 const receiveUser = user => ({type: RECEIVE_USER, data: user})
 
-const resetUser = msg => ({type: RESET_USER, data: msg})
+export const resetUser = msg => ({type: RESET_USER, data: msg})
+
+const receiveUserList = userList => ({type: RECEIVE_USER_LIST, data: userList})
+
+export const resetUserList = msg => ({type: RESET_USER_LIST, data: msg})
 
 export const register = user => {
   const {username, password, password2, type} = user
@@ -72,6 +76,18 @@ export const getUser = () => {
       dispatch(receiveUser(result.data))
     } else {
       dispatch(resetUser(result.msg))
+    }
+  }
+}
+
+export const getUserList = type =>{
+  return async dispatch => {
+    const response = await reqUserList(type)
+    const result = response.data
+    if (result.code === 0) {//成功
+      dispatch(receiveUserList(result.data))
+    } else {
+      // dispatch(resetUserList(result.msg))
     }
   }
 }

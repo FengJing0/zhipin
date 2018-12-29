@@ -34,8 +34,7 @@ router.post('/login', (req, res) => {
 })
 
 router.post('/update', (req, res) => {
-  const userid = res.cookies.userid
-
+  const userid = req.cookies.userid
   if (!userid) {
     return res.send({code: 1, msg: '请先登录'})
   }
@@ -70,6 +69,17 @@ router.get('/user', (req, res) => {
       res.send({code: 1, msg: '用户不存在'})
     }
   })
+})
+
+
+router.get('/userlist', (req, res) => {
+  const {type} = req.query
+
+  UserModel.find({type}, filter, (err, users) => {
+    res.send({code:0,data: users})
+  })
+
+
 })
 
 

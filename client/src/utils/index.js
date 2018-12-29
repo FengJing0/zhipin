@@ -7,7 +7,7 @@ export function getRedirectTo(type, header) {
   }
 
   if(!header){
-    path += 'info'
+    path += 'Info'
   }
 
   return path

@@ -16,6 +16,7 @@ import {getUser} from "../../redux/actions"
 import {getRedirectTo} from "../../utils"
 import NotFound from "../../components/not-fount/not-fount"
 import {NavBar} from "antd-mobile"
+import NavFooter from "../../components/nav-footer/nav-footer"
 
 
 class Main extends Component {
@@ -82,21 +83,34 @@ class Main extends Component {
     }
 
     const navList = this.navList
+    // console.log(navList.map(e=>{
+    //   e.path = e.path.substr(1)
+    //   return e
+    // }))
     const path = this.props.location.pathname
-    const currentNav = navList.fine(nav => nav.path===path)
+    const currentNav = navList.find(nav => nav.path===path)
+
+    if(currentNav){
+      if(user.type === 'laoban'){
+        navList[1].hide = true
+      }else{
+        navList[0].hide = true
+      }
+    }
+
 
     return (
         <div>
-          {currentNav?<NavBar>{currentNav.title}</NavBar>:null}
+          {currentNav?<NavBar className='stick-header'>{currentNav.title}</NavBar>:null}
           <Switch>
             {
-              navList.map(nav => <Route path={nav.path} component={nav.component}/>)
+              navList.map((nav,index) => <Route path={nav.path} component={nav.component} key={index}/>)
             }
             <Route path='/laobanInfo' component={LaobanInfo}/>
             <Route path='/dashenInfo' component={DashenInfo}/>
             <Route component={NotFound}/>
           </Switch>
-          {currentNav?<div>{currentNav.text}</div>:null}
+          {currentNav?<NavFooter navList={navList}/>:null}
         </div>
     )
   }
