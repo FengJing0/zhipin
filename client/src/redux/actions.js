@@ -1,6 +1,19 @@
 import {reqLogin, reqRegister, reqUpdateUser,reqUser,reqUserList} from "../api"
 import {AUTH_SUCCESS, ERROR_MSG, RECEIVE_USER, RESET_USER,RECEIVE_USER_LIST,RESET_USER_LIST} from "./action-type"
 
+import io from 'socket.io-client'
+
+
+function initIO(){
+  if(!io.socket){
+    io.socket = io('ws://localhost:4000')
+    io.socket.on('receiveMsg',chatMsg=>{
+      console.log(chatMsg)
+    })
+  }
+}
+
+
 const authSuccess = user => ({type: AUTH_SUCCESS, data: user})
 
 const errorMsg = msg => ({type: ERROR_MSG, data: msg})
@@ -89,5 +102,13 @@ export const getUserList = type =>{
     } else {
       // dispatch(resetUserList(result.msg))
     }
+  }
+}
+
+export const sendMsg = ({from,to,content}) =>{
+  return async dispatch => {
+    console.log('发送：',{from,to,content})
+    initIO()
+    io.socket.emit('sendMsg',{from,to,content})
   }
 }
