@@ -66,7 +66,7 @@ class Main extends Component {
 
   render() {
     const userid = Cookies.get('userid')
-    const {user} = this.props
+    const {user,unReadCount} = this.props
 
     if (!userid) {
       return <Redirect to='/login'/>
@@ -112,13 +112,13 @@ class Main extends Component {
             <Route path='/chat/:userid' component={Chat}/>
             <Route component={NotFound}/>
           </Switch>
-          {currentNav?<NavFooter navList={navList}/>:null}
+          {currentNav?<NavFooter navList={navList} unReadCount={unReadCount}/>:null}
         </div>
     )
   }
 }
 
 export default connect(
-    state => ({user: state.user}),
+    state => ({user: state.user,unReadCount:state.chat.unReadCount}),
     {getUser}
 )(Main)

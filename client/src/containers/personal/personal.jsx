@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from "react-redux"
 import {Button, List, Modal, Result, WhiteSpace} from "antd-mobile"
 import Cookies from "js-cookie"
-import {resetUser,resetUserList} from '../../redux/actions'
+import {resetUser,resetUserList,resetMsgList} from '../../redux/actions'
 
 
 const Item = List.Item
@@ -22,6 +22,7 @@ class Personal extends Component {
           Cookies.remove('userid')
           this.props.resetUser()
           this.props.resetUserList()
+          this.props.resetMsgList()
         }
       }
     ])
@@ -32,8 +33,8 @@ class Personal extends Component {
 
     return (
         <div style={{marginBottom:50,marginTop:50}}>
-          <Result img={<img src={require(`../../assets/image/headers/${header}.png`)} style={{width: 50}}
-                            alt='header'/>}
+          <Result img={header?<img src={require(`../../assets/image/headers/${header}.png`)} style={{width: 50}}
+                            alt='header'/>:null}
                   title={username}
                   message={company}/>
           <List renderHeader={() => '相关信息'}>
@@ -54,5 +55,5 @@ class Personal extends Component {
 
 export default connect(
     state => ({user: state.user}),
-    {resetUser,resetUserList}
+    {resetUser,resetUserList,resetMsgList}
 )(Personal)
